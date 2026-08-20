@@ -79,12 +79,12 @@ PAGE = r"""<!doctype html>
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta name="theme-color" content="#1A1714">
 
-<!-- The chia se. LUU Y khi deploy: og:image phai doi thanh URL TUYET DOI
-     (https://ten-mien/og.png) — Facebook va Twitter khong doc duoc duong dan tuong doi. -->
+<!-- og:image PHAI la duong dan tuyet doi: Facebook va Twitter khong doc duoc
+     duong dan tuong doi. Doi cho nay neu ten mien thay doi. -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Buying to let in HCMC earns less than a bank deposit">
 <meta property="og:description" content="45,084 listings across 20 districts. Net rental yield 1.51%/yr against 6.00% on a 12-month deposit — a gap of 4.49 points, before the property has appreciated at all.">
-<meta property="og:image" content="og.png">
+<meta property="og:image" content="https://phuocong.github.io/hcmc-rental-yield/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
