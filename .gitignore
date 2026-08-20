@@ -1,0 +1,18 @@
+# Du lieu tho — nang, tai lai duoc, va khong nen phat tan lai noi dung tin goc
+data/raw/
+data/interim/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# He dieu hanh
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# HTML luu lai luc do cau truc trang cua ben khac — chi de go loi, KHONG dang lai
+data/output/*.html

@@ -1,0 +1,23 @@
+{
+  "gia_dinh": {
+    "lai_tiet_kiem": 0.06,
+    "lai_vay_tha_noi": 0.12,
+    "ty_le_vay": 0.7,
+    "bo_trong_thang": 1.0,
+    "thue_cho_thue": 0.1,
+    "phi_quan_ly_m2_thang": 15000,
+    "bao_tri_nam": 0.005,
+    "moi_gioi_cho_thue": 0.042
+  },
+  "ti_suat_gop_trung_vi": 2.606,
+  "ti_suat_rong_trung_vi": 1.513,
+  "lai_tiet_kiem_pct": 6.0,
+  "chenh_lech_diem": 4.487,
+  "so_nam_thu_hoi_von": 66.1,
+  "dong_tien_khi_vay_pct": -6.887,
+  "tang_gia_can_thiet": {
+    "mua_tien_mat_bang_tiet_kiem": 4.487,
+    "vay_khong_lo": 6.887,
+    "vay_bang_tiet_kiem": 8.687
+  }
+}

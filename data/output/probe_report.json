@@ -1,0 +1,136 @@
+{
+  "sample_ad": {
+    "account_id": 32220949,
+    "account_name": "Thịnh Nguyễn ",
+    "account_oid": "22ac2783416e40e0f2d3312e7d0041d5",
+    "ad_features": [],
+    "ad_id": 178023708,
+    "ad_labels": [],
+    "area": 119,
+    "area_name": "Thành phố Thủ Đức",
+    "area_v2": 13119,
+    "avatar": "https://cdn.chotot.com/uac2/32220949",
+    "body": "HÀNG HIẾM THỦ ĐỨC - BÁN NHÀ 4 TẦNG -  ĐƯỜNG HOÀNG DIỆU 2 - P. LINH CHIỂU - thu nhập 20tr/tháng \n\n*Tiện ích xung quanh đầy đủ như ngân hàng , chợ , trường đại học ngân hàng , khu mua sắm ăn uống\n*Dân cư xung quanh đông đúc\n*Cách Vincom Thủ Đức 3 phút duy chuyển\n*Nhà 1 trệt 3 lầu, Gồm 7PN, 6WC\n*Diện Tích công nhận: 87m2 ngang 5M \nGiá bán: 11,9 tỷ \nLh Thịnh xem vị trí ***",
+    "business_days": [],
+    "category": 1020,
+    "category_name": "Nhà ở",
+    "company_ad": true,
+    "contain_videos": 2,
+    "cta_buttons": [],
+    "date": "11 giây trước",
+    "fee_type": [],
+    "full_name": "Thịnh Nguyễn ",
+    "house_type": 4,
+    "image": "https://cdn.chotot.com/TlmVTQYlzlBg6MVIm3sHbRJgphVIcd2dd4zsf_lYjEI/preset:listing/plain/f09b4188a944cb7dcffb1dfaa35e783a-2996975016417117851.jpg",
+    "image_thumbnails": [
+      {
+        "image": "https://cdn.chotot.com/bKEafUhPoEasAHl6VL7xG98L9dOvmeXBhzir1Yre3mM/preset:view/plain/f09b4188a944cb7dcffb1dfaa35e783a-2996975016417117851.jpg",
+        "thumbnail": "https://cdn.chotot.com/TlmVTQYlzlBg6MVIm3sHbRJgphVIcd2dd4zsf_lYjEI/preset:listing/plain/f09b4188a944cb7dcffb1dfaa35e783a-2996975016417117851.jpg"
+      },
+      {
+        "image": "https://cdn.chotot.com/lrKXWacxcbUB9X5oLSkZDfEJZiKD1IGho_yvKOZySn4/preset:view/plain/3d82a440cadb55c157e6113241703ac2-2996975016318206692.jpg",
+        "thumbnail": "https://cdn.chotot.com/UgcVxpX1VB7TgJvQcVe22-4pjJEmaS6T2ABuVHNzA9M/preset:listing/plain/3d82a440cadb55c157e6113241703ac2-2996975016318206692.jpg"
+      },
+      {
+        "image": "https://cdn.chotot.com/gVQCSUSZZyccMznHGtPTPCkAYB6RngfM33deSUkaH1c/preset:view/plain/c0f66a81a85c80be36ea9d4a260bdf1b-2996975016214264087.jpg",
+        "thumbnail": "https://cdn.chotot.com/JGkoi2MhYQaG7V5Ar5dk9Nhzc6n4dHAxvCOkyqgPwyA/preset:listing/plain/c0f66a81a85c80be36ea9d4a260bdf1b-2996975016214264087.jpg"
+      },
+      {
+        "image": "https://cdn.chotot.com/6U7unToz9aCqupoBdpphgz-xau5A-PxwZPL4EMiI81w/preset:view/plain/162c30a23fbb783ac19091d9dc081fd4-2996975016381635709.jpg",
+        "thumbnail": "https://cdn.chotot.com/3VfP9vJNEFzYFn72eC0I5OfPpTGIF3GUMUjrCNX7wC8/preset:listing/plain/162c30a23fbb783ac19091d9dc081fd4-2996975016381635709.jpg"
+      }
+    ],
+    "images": [
+      "https://cdn.chotot.com/bKEafUhPoEasAHl6VL7xG98L9dOvmeXBhzir1Yre3mM/preset:view/plain/f09b4188a944cb7dcffb1dfaa35e783a-2996975016417117851.jpg",
+      "https://cdn.chotot.com/lrKXWacxcbUB9X5oLSkZDfEJZiKD1IGho_yvKOZySn4/preset:view/plain/3d82a440cadb55c157e6113241703ac2-2996975016318206692.jpg",
+      "https://cdn.chotot.com/gVQCSUSZZyccMznHGtPTPCkAYB6RngfM33deSUkaH1c/preset:view/plain/c0f66a81a85c80be36ea9d4a260bdf1b-2996975016214264087.jpg",
+      "https://cdn.chotot.com/6U7unToz9aCqupoBdpphgz-xau5A-PxwZPL4EMiI81w/preset:view/plain/162c30a23fbb783ac19091d9dc081fd4-2996975016381635709.jpg"
+    ],
+    "inspection_images": [],
+    "is_main_street": true,
+    "is_shop_verified": false,
+    "is_sticky": false,
+    "is_zalo_show": false,
+    "job_tier": 0,
+    "label_campaigns": [],
+    "latitude": 10.854226,
+    "list_id": 134050049,
+    "list_time": 1786769504577,
+    "location": "10.8542261,106.7694644",
+    "location_id": "osm:W32577436",
+    "longitude": 106.76946,
+    "number_of_images": 4,
+    "orig_list_time": 1786336729000,
+    "params": [],
+    "price": 11900000000,
+    "price_million_per_m2": 136.78162,
+    "price_string": "11,9 tỷ",
+    "property_legal_document": 1,
+    "protection_entitlement": false,
+    "pty_characteristics": [],
+    "pty_jupiter": 0,
+    "pty_map": "https://cdn.chotot.com/admincentre/location/10x855026_106x770264_c.jpg",
+    "pty_map_modifier": 0.0008,
+    "pty_map_v2": "https://cdn.chotot.com/admincentre/location/10x855026_106x770264_c_v2.jpg",
+    "pty_project_name": "",
+    "region": 13,
+    "region_name": "Tp Hồ Chí Minh",
+    "region_name_v3": "TP Hồ Chí Minh",
+    "region_v2": 13000,
+    "rooms": 6,
+    "seller_info": {
+      "avatar": "https://cdn.chotot.com/uac2/32220949",
+      "full_name": "Thịnh Nguyễn ",
+      "live_ads": 12
+    },
+    "size": 87,
+    "size_unit_string": "m²",
+    "special_display_images": [],
+    "specific_service_offered": [],
+    "state": "accepted",
+    "status": "active",
+    "sticky_ad_platinum": 0,
+    "street_name": "Đường Hoàng Diệu 2",
+    "subject": "SÓT LẠI CĂN NHÀ 4 TẦNG NGANG 5M ĐƯỜNG HOÀNG DIỆU 2 THU NHẬP 20tr/tháng",
+    "thumbnail_image": "https://cdn.chotot.com/TlmVTQYlzlBg6MVIm3sHbRJgphVIcd2dd4zsf_lYjEI/preset:listing/plain/f09b4188a944cb7dcffb1dfaa35e783a-2996975016417117851.jpg",
+    "type": "s",
+    "unique_street_id": "a27100355568df76acfba327dc6808d7",
+    "videos": [],
+    "ward": 9245,
+    "ward_name": "Phường Linh Chiểu (Quận Thủ Đức cũ)",
+    "ward_name_v3": "Phường Thủ Đức",
+    "webp_image": "https://cdn.chotot.com/hRQoB632m4OiWbkc81ufQYmeDhMNe6J2WAammEs_IFg/preset:listing/plain/f09b4188a944cb7dcffb1dfaa35e783a-2996975016417117851.webp"
+  },
+  "regions": {
+    "12000": {
+      "region_name": "Hà Nội",
+      "total": 10000
+    },
+    "13000": {
+      "region_name": "Tp Hồ Chí Minh",
+      "total": 10000
+    }
+  },
+  "categories": {
+    "1020": {
+      "name": "Nhà ở",
+      "seen": 145
+    },
+    "1030": {
+      "name": "Văn phòng, Mặt bằng kinh doanh",
+      "seen": 23
+    },
+    "1010": {
+      "name": "Căn hộ/Chung cư",
+      "seen": 92
+    },
+    "1050": {
+      "name": "Phòng trọ",
+      "seen": 108
+    },
+    "1040": {
+      "name": "Đất",
+      "seen": 32
+    }
+  }
+}

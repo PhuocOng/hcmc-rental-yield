@@ -1,0 +1,154 @@
+{
+  "batdongsan.com.vn": {
+    "url": "https://batdongsan.com.vn/nha-dat-ban-tp-hcm",
+    "robots": {
+      "ok": false,
+      "note": "HTTPError"
+    },
+    "fetch": {
+      "status": 403,
+      "server": "cloudflare"
+    }
+  },
+  "mogi.vn": {
+    "url": "https://mogi.vn/ho-chi-minh/mua-nha-dat",
+    "robots": {
+      "ok": true,
+      "disallow_all_agents": [
+        "/trang-ca-nhan/",
+        "/*gclid=",
+        "/*wbraid=",
+        "/api/",
+        "/template/",
+        "/MarketPrice/",
+        "/Property/"
+      ],
+      "n_rules": 7,
+      "blocks_root": false
+    },
+    "fetch": {
+      "status": 200,
+      "server": "?",
+      "bytes": 85114
+    },
+    "embedded_json": [
+      "ld+json"
+    ],
+    "price_hits": 66,
+    "m2_hits": 4,
+    "verdict": "DUOC — phai boc JSON nhung trong trang"
+  },
+  "alonhadat.com.vn": {
+    "url": "https://alonhadat.com.vn/nha-dat/can-ban/tp-hcm.html",
+    "robots": {
+      "ok": false,
+      "note": "HTTPError"
+    },
+    "fetch": {
+      "status": 200,
+      "server": "?",
+      "bytes": 26135
+    },
+    "embedded_json": [],
+    "price_hits": 26,
+    "m2_hits": 40,
+    "verdict": "DE — HTML co san gia va dien tich"
+  },
+  "guland.vn": {
+    "url": "https://guland.vn/mua-ban-nha-dat-ho-chi-minh",
+    "robots": {
+      "ok": true,
+      "disallow_all_agents": [
+        "/saved/",
+        "/leaflet/",
+        "/tin-xac-thuc/",
+        "/tin-doc-quyen/",
+        "/tin-da-dang-*/",
+        "/tin-da-luu-*/"
+      ],
+      "n_rules": 6,
+      "blocks_root": false
+    },
+    "fetch": {
+      "status": 403,
+      "server": "cloudflare"
+    }
+  },
+  "nhadat24h.net": {
+    "url": "https://nhadat24h.net/nha-dat-ban-tp-ho-chi-minh",
+    "robots": {
+      "ok": true,
+      "disallow_all_agents": [
+        "/ThongBao",
+        "/getLookupdata*",
+        "/2012getNewPassword.aspx",
+        "/*.swf$"
+      ],
+      "n_rules": 4,
+      "blocks_root": false
+    },
+    "fetch": {
+      "status": 403,
+      "server": "cloudflare"
+    }
+  },
+  "homedy.com": {
+    "url": "https://homedy.com/ban-nha-dat-ho-chi-minh",
+    "robots": {
+      "ok": true,
+      "disallow_all_agents": [],
+      "n_rules": 0,
+      "blocks_root": false
+    },
+    "fetch": {
+      "status": 200,
+      "server": "?",
+      "bytes": 148402
+    },
+    "embedded_json": [
+      "ld+json"
+    ],
+    "price_hits": 0,
+    "m2_hits": 0,
+    "verdict": "DUOC — phai boc JSON nhung trong trang"
+  },
+  "bds123.vn": {
+    "url": "https://bds123.vn/nha-dat-ban-tp-ho-chi-minh.html",
+    "robots": {
+      "ok": true,
+      "disallow_all_agents": [
+        "/admincp",
+        "/api",
+        "*?created=*",
+        "*&created=*",
+        "*?price=*",
+        "*&price=*",
+        "*?filter=*",
+        "*&filter=*",
+        "*?src=*",
+        "*&src=*",
+        "*?estate=*",
+        "*&estate=*",
+        "*&gioi_tinh=*",
+        "*?gioi_tinh=*"
+      ],
+      "n_rules": 30,
+      "blocks_root": false
+    },
+    "fetch": {
+      "status": 410,
+      "server": "cloudflare"
+    }
+  },
+  "muaban.net": {
+    "url": "https://muaban.net/bat-dong-san-tp-ho-chi-minh-l1",
+    "robots": {
+      "ok": false,
+      "note": "HTTPError"
+    },
+    "fetch": {
+      "status": 403,
+      "server": "cloudflare"
+    }
+  }
+}

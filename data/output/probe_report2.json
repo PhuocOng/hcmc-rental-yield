@@ -1,0 +1,29 @@
+{
+  "categories": {
+    "1010": {
+      "name": "Căn hộ/Chung cư",
+      "type": "u",
+      "total": 10000
+    },
+    "1020": {
+      "name": "Nhà ở",
+      "type": "s",
+      "total": 10000
+    },
+    "1030": {
+      "name": "Văn phòng, Mặt bằng kinh doanh",
+      "type": "u",
+      "total": 7464
+    },
+    "1040": {
+      "name": "Đất",
+      "type": "s",
+      "total": 4207
+    },
+    "1050": {
+      "name": "Phòng trọ",
+      "type": "u",
+      "total": 10000
+    }
+  }
+}

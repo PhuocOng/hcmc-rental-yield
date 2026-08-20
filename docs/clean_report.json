@@ -1,0 +1,44 @@
+{
+  "nguon": "chotot_hcm_20260815.jsonl",
+  "tong_dong_vao": 48018,
+  "giu_lai": 45084,
+  "ty_le_giu": 93.89,
+  "loai_bo": {
+    "5_trung_mem": 2292,
+    "1_thieu_truong_bat_buoc": 349,
+    "4_gia_tren_m2_vo_ly": 176,
+    "3_gia_vo_ly": 39,
+    "2_dien_tich_vo_ly": 78
+  },
+  "loai_bo_tong": 2934,
+  "con_lai_theo_giao_dich": {
+    "ban": 23253,
+    "thue": 21831
+  },
+  "con_lai_theo_danh_muc": {
+    "Căn hộ/Chung cư": 16645,
+    "Nhà ở": 28439
+  },
+  "nguong": {
+    "dien_tich_m2": [
+      10,
+      1000
+    ],
+    "gia_ban": [
+      100000000,
+      500000000000
+    ],
+    "gia_thue": [
+      500000,
+      500000000
+    ],
+    "gia_m2_ban": [
+      5000000,
+      500000000
+    ],
+    "gia_m2_thue": [
+      20000,
+      2000000
+    ]
+  }
+}
