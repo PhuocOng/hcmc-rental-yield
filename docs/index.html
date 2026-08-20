@@ -560,69 +560,62 @@ function setBars(){
     },180);
   }
 
-  let shown=0,target=0,running=false,seeking=false,seekAt=0,navOn=false;
-  v.addEventListener('seeked',()=>{seeking=false;});
-  /* Moi lenh tua bat decoder giai ma lai tu keyframe gan nhat (o day la toi 8
-     khung). Goi tua moi nhip rAF = doi decoder lam 60 lan/giay o do phan giai
-     1600x900 — no khong theo kip va sinh ra giat. Chan o ~30 lan/giay: mat
-     thuong khong phan biet duoc, ma decoder tho duoc. */
-  /* Video 24 khung/giay. Tua toi mot thoi diem nam GIUA hai khung se hien ra
-     dung khung do — tuc la mot lenh giai ma day du cho ket qua y het khung dang
-     hien. Truoc day nguong la 0.004 giay = MOT PHAN MUOI khung: phan lon lenh tua
-     la vo ich, chi ton decoder chu khong doi gi tren man hinh.
-     Gio lam tron ve bien khung: khong bao gio tua neu khung hien ra khong doi. */
+  /* ===== VONG LAP LUON SONG =====
+     Ban truoc dung mot cai chot `running` de chi chay rAF khi can. No hong theo
+     kieu khong the tu hoi: neu trang duoc tai luc tab dang an (hoac truoc lan ve
+     dau tien), `running` bat len true nhung rAF KHONG chay de tat lai. Tu do moi
+     lan cuon deu thay running===true nen khong len lich rAF moi -> nen chet han
+     cho toi khi tai lai trang.
+     Gio giu mot vong rAF chay lien tuc. Khi khong co viec gi no thoat ra ngay,
+     ton dung mot loi goi ham moi khung — doi lay viec khong con trang thai nao
+     co the ket. */
+  let shown=0,target=0,seeking=false,seekAt=0,navOn=false;
   const FPS=24, FRAME=1/FPS, SEEK_MIN_MS=38;
   let lastSeek=0, shownFrame=-1;
-  function seek(force){
-    const now=performance.now();
+  v.addEventListener('seeked',()=>{seeking=false;});
+
+  function seek(){
     if(seeking) return;
     const f=Math.round(shown/FRAME);
-    if(!force && f===shownFrame) return;              /* khung khong doi -> bo qua */
-    if(!force && now-lastSeek<SEEK_MIN_MS) return;    /* san toc do khi cuon rat nhanh */
+    if(f===shownFrame) return;                       /* khung khong doi -> khong tua */
+    const now=performance.now();
+    if(now-lastSeek<SEEK_MIN_MS) return;             /* san toc do khi cuon rat nhanh */
     const t=f*FRAME;
-    /* Gan currentTime bang dung gia tri hien tai thi KHONG co su kien 'seeked',
-       ma co 'seeking' lai da bat -> ket vinh vien, moi lenh tua sau deu bi chan. */
+    /* Gan currentTime dung bang gia tri hien tai thi KHONG sinh su kien 'seeked',
+       ma co 'seeking' da bat -> ket vinh vien. */
     if(Math.abs(v.currentTime-t)<1e-4){ shownFrame=f; return; }
     lastSeek=now; shownFrame=f; seeking=true; seekAt=now;
     try{ v.currentTime=t; }catch(e){ seeking=false; }
   }
-  /* He so noi suy quyet dinh do "bam" cua video vao vi tri cuon.
-     0.16 can ~220ms de duoi kip 90% khoang cach — doc ra thanh cam giac tre.
-     0.26 con ~130ms, van muot ma theo sat tay hon nhieu.
-     Va khi nguoi dung keo thanh cuon nhay mot phat (khoang cach > 2,5s) thi
-     dung noi suy nua, nhay thang toi noi, neu khong se thay video "boi" theo. */
-  function tick(){
-    if(seeking && performance.now()-seekAt>400) seeking=false;   /* chong ket vinh vien */
-    const d=target-shown;
-    if(Math.abs(d)<FRAME*0.5){ shown=target; running=false; seek(true); return; }
-    shown += Math.abs(d)>2.5 ? d*0.75 : d*0.26;
-    seek();
-    requestAnimationFrame(tick);
-  }
 
-  let lastP=-1;
+  function pump(){
+    requestAnimationFrame(pump);                     /* re-arm TRUOC moi viec khac */
+    if(!v.duration) return;
+    if(seeking && performance.now()-seekAt>500) seeking=false;   /* chong ket */
+    const d=target-shown;
+    if(Math.abs(d)<FRAME*0.25) shown=target;
+    /* keo thanh cuon nhay mot phat thi nhay thang, khong noi suy, neu khong video
+       se "boi" theo sau mot doan dai */
+    else shown += Math.abs(d)>2.5 ? d*0.70 : d*0.25;
+    seek();
+  }
+  requestAnimationFrame(pump);
+  /* Quay lai tab sau khi roi di: rAF da bi tam dung, dong bo lai ngay */
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) onScroll(); });
+
   /* scrollHeight ep trinh duyet TINH LAI BO CUC ngay tai cho. Goi no trong ham
-     cuon la ep tinh bo cuc dong bo hang chuc lan moi giay — day la thu nang nhat
-     trong ca vong cuon. Do mot lan, chi do lai khi kich thuoc that su doi. */
+     cuon la ep tinh bo cuc dong bo hang chuc lan moi giay. Do mot lan, chi do lai
+     khi kich thuoc that su doi. */
   let maxScroll=1;
   function measure(){ maxScroll=Math.max(1,document.documentElement.scrollHeight-innerHeight); }
 
   let lastScale=-1;
   function onScroll(){
     const p=clamp(scrollY/maxScroll,0,1);
-    if(v.duration){
-      target=p*v.duration*0.999;
-      /* KHONG duoc kep target vao phan da tai. Video dang TAM DUNG thi trinh
-         duyet chi tai truoc mot doan ngan (do duoc: 2,5 giay = 9%) roi ngung han
-         — kep vao do la ghim nen dung yen o 9% hanh trinh du nguoi dung cuon het
-         trang. Cu de no tua toi dau can: trinh duyet se tu xin doan con thieu,
-         cho mot nhip ngan van hon la khong bao gio nhuc nhich. */
-      if(!running){ running=true; requestAnimationFrame(tick); }
-    }
+    if(v.duration) target=p*v.duration*0.999;
     reveal();
-    /* Lam tron ty le phong to thanh 40 nac. Truoc day de 4 chu so thap phan nen
-       gan nhu moi lan cuon deu ra mot gia tri moi, ep gop lai ca lop video 1600px.
-       40 nac cho ca trang van muot mat ma so lan gop giam han. */
+    /* Lam tron ty le phong to thanh 40 nac: de nguyen 4 chu so thap phan thi gan
+       nhu moi lan cuon deu ra gia tri moi, ep gop lai ca lop video 1600px. */
     const sc=Math.round(p*40);
     if(sc!==lastScale){
       lastScale=sc;
@@ -636,11 +629,10 @@ function setBars(){
     measure();
     addEventListener('scroll',onScroll,{passive:true});
     addEventListener('resize',()=>{measure();onScroll();});
-    /* bo cuc con doi khi anh/font ve xong, do lai vai lan dau */
     [300,1200,3000].forEach(t=>setTimeout(()=>{measure();onScroll();},t));
     onScroll();
   }
-  window._hero={onScroll,giveUp,state:()=>({shown,target,running,seeking})};
+  window._hero={onScroll,giveUp,seek,pump,state:()=>({shown,target,seeking,shownFrame})};
 
   if(reduce) giveUp(); else load();
 })();
