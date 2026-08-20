@@ -58,9 +58,9 @@ PAGE = r"""<!doctype html>
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" as="image" href="assets/hero-poster.jpg" fetchpriority="high">
-<!-- Bat dau tai video ngay tu <head>. Neu doi den luc script cuoi body chay
-     thi da mat ca quang thoi gian doc body va tai CSS font. -->
-<script>window.__vid=fetch("assets/hero-scrub.mp4");</script>
+<!-- Goi y trinh duyet tai video som. Video duoc phat TRUC TIEP (khong qua Blob)
+     nen chi can vai tram ms la co metadata va tua duoc ngay. -->
+<link rel="preload" as="video" href="assets/hero-scrub.mp4" type="video/mp4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -430,28 +430,32 @@ function setBars(){
     setBars();
   }
 
-  async function load(){
-    try{
-      const res=await (window.__vid||fetch(SRC));
-      if(!res.ok) throw new Error(res.status);
-      const total=+(res.headers.get('content-length')||0);
-      const rd=res.body.getReader(); const chunks=[]; let got=0;
-      for(;;){
-        const {done,value}=await rd.read(); if(done) break;
-        chunks.push(value); got+=value.length;
-        if(total) $('rfg').style.strokeDashoffset=44*(1-got/total);
-      }
-      v.src=URL.createObjectURL(new Blob(chunks,{type:'video/mp4'}));
-      await new Promise((ok,no)=>{
-        v.addEventListener('loadedmetadata',ok,{once:true});
-        v.addEventListener('error',no,{once:true});
-        setTimeout(no,20000);
-      });
+  /* Truoc day tai TRON 5 MB thanh Blob roi moi cho tua. Trong ~1,5-2 giay do
+     `v.duration` chua co nen vong tua khong chay: nguoi dung cuon ma hinh khong
+     doi khung. Do chinh la 2 giay "lag" khi vua vao.
+
+     Gio phat truc tiep. Nho `-movflags +faststart`, phan metadata nam o dau file
+     nen `loadedmetadata` ve sau vai tram ms — tua duoc gan nhu ngay lap tuc, va
+     chi tai MOT lan thay vi hai. */
+  function load(){
+    v.preload='auto';
+    v.src=SRC;
+    v.addEventListener('loadedmetadata',()=>{
       v.classList.add('ready');
-      ring.style.opacity=0; setTimeout(()=>ring.style.display='none',500);
       if(scrollY<60) hint.style.opacity=1;
       start();
-    }catch(e){ giveUp(); }
+    },{once:true});
+    v.addEventListener('error',giveUp,{once:true});
+    setTimeout(()=>{ if(!v.duration) giveUp(); },20000);
+    /* Vong tron bao phan da tai duoc, doc tu chinh bo dem cua video */
+    const iv=setInterval(()=>{
+      if(!v.duration) return;
+      const b=v.buffered.length?v.buffered.end(v.buffered.length-1):0;
+      const f=Math.min(1,b/v.duration);
+      $('rfg').style.strokeDashoffset=44*(1-f);
+      if(f>0.995){ clearInterval(iv); ring.style.opacity=0;
+        setTimeout(()=>ring.style.display='none',450); }
+    },180);
   }
 
   let shown=0,target=0,running=false,seeking=false,seekAt=0;
@@ -478,6 +482,13 @@ function setBars(){
     const p=max>0?clamp(scrollY/max,0,1):0;
     if(v.duration){
       target=p*v.duration*0.999;
+      /* Chan khong cho tua vuot qua phan da tai. Tua vao vung chua co du lieu
+         se lam video dung hinh cho — thay vi vay thi no bam o mep bo dem va
+         chay tiep khi du lieu ve. */
+      if(v.buffered.length){
+        const b=v.buffered.end(v.buffered.length-1)-0.15;
+        if(target>b) target=Math.max(0,b);
+      }
       if(!running){ running=true; requestAnimationFrame(tick); }
     }
     /* chi ghi DOM khi that su doi */
