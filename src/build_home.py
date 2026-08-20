@@ -58,9 +58,11 @@ PAGE = r"""<!doctype html>
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" as="image" href="assets/hero-poster.jpg" fetchpriority="high">
-<!-- Goi y trinh duyet tai video som. Video duoc phat TRUC TIEP (khong qua Blob)
-     nen chi can vai tram ms la co metadata va tua duoc ngay. -->
-<link rel="preload" as="video" href="assets/hero-scrub.mp4" type="video/mp4">
+<!-- KHONG dung <link rel="preload" as="video">: "video" khong phai gia tri hop le
+     cua thuoc tinh as, trinh duyet tai rieng mot ban va KHONG ghep duoc voi request
+     cua the <video> — thanh ra tai hai lan, ton gap doi bang thong. The <video> voi
+     preload="auto" va src dat san la du: metadata nam dau file (+faststart) nen tua
+     duoc sau khoang 200ms. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -93,8 +95,8 @@ a{color:inherit}
 .bg img{opacity:.8}
 /* Man loc: giu chu doc duoc, va keo footage lui ve lam ket cau nen */
 .bg .veil{position:absolute;inset:0;
-  background:radial-gradient(120% 90% at 50% 40%,rgba(14,13,12,.28) 0%,rgba(14,13,12,.72) 62%,
-    rgba(14,13,12,.93) 100%)}
+  background:radial-gradient(125% 95% at 50% 42%,rgba(14,13,12,.10) 0%,rgba(14,13,12,.48) 60%,
+    rgba(14,13,12,.80) 100%)}
 main{position:relative;z-index:10}
 
 /* ============ thanh dieu huong ============ */
@@ -497,7 +499,7 @@ function setBars(){
     if(pr!==lastP){
       lastP=pr;
       /* day nhe camera vao trong theo tien do cuon — goi cam giac chieu sau */
-      bg.style.transform='scale('+(1+pr*0.07).toFixed(4)+')';
+      bg.style.transform='scale('+(1+pr*0.035).toFixed(4)+')';
       nav.classList.toggle('on',scrollY>50);
       if(scrollY>60 && hint.style.opacity!=='0') hint.style.opacity=0;
     }

@@ -31,7 +31,7 @@ ASSETS = ROOT / "docs" / "assets"
 OUT = ASSETS / "hero-scrub.mp4"
 POSTER = ASSETS / "hero-poster.jpg"
 
-W, FPS, SEG, FADE = 1152, 30, 5.5, 1.1      # be ngang, fps, giay moi chang, giay hoa tan
+W, FPS, SEG, FADE = 1600, 24, 5.5, 1.1     # be ngang, fps, giay moi chang, giay hoa tan
 
 # (file, giay bat dau) — chon doan dep nhat cua tung clip
 STAGES = [
@@ -46,9 +46,9 @@ STAGES = [
 ]
 
 # Tong chung: ha bao hoa manh, toi di, hoi am. Bien no thanh ket cau nen.
-GRADE = "eq=saturation=0.42:brightness=-0.10:contrast=1.12,colorbalance=rs=.04:bs=-.03"
+GRADE = "eq=saturation=0.70:brightness=-0.04:contrast=1.05,colorbalance=rs=.03:bs=-.02"
 
-SCRUB_FLAGS = ["-c:v", "libx264", "-crf", "31", "-preset", "slow",
+SCRUB_FLAGS = ["-c:v", "libx264", "-crf", "29", "-preset", "slow",
                "-g", "8", "-keyint_min", "8", "-pix_fmt", "yuv420p",
                "-movflags", "+faststart", "-an"]
 
