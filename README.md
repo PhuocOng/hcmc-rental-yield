@@ -1,5 +1,7 @@
 # Rental Yield — Tỉ suất cho thuê bất động sản TP.HCM
 
+**Trang chạy tại: https://peter208.com/hcmc-rental-yield/**
+
 > Mua nhà cho thuê ở TP.HCM sinh lời ít hơn gửi tiết kiệm ngân hàng —
 > và đây là bản đồ chỗ nào tệ nhất.
 
@@ -64,9 +66,35 @@ lệch cơ cấu diện tích.
 
 ### Xem website
 
+Bản đã đưa lên: **https://peter208.com/hcmc-rental-yield/**
+
+Chạy tại máy:
+
 ```bash
-python -m http.server 8765 --directory web
+python -m http.server 8765 --directory docs
 ```
+
+### Đưa lên mạng
+
+GitHub Pages, nguồn là nhánh `main` thư mục `/docs`. Đẩy code lên là tự cập nhật,
+không cần CI.
+
+```bash
+python src/build_home.py && python src/build_site.py
+git add -A && git commit -m "..." && git push
+```
+
+**Vì sao là `docs/` chứ không phải `web/`:** GitHub Pages chỉ phục vụ được từ thư
+mục gốc hoặc `/docs`. Đổi tên thư mục đơn giản hơn dựng một quy trình CI. Báo cáo
+viết để ở `report/`.
+
+**Không bao giờ commit `data/raw/`** — 274 MB, và đó là nội dung tin rao gốc.
+`.gitignore` đã chặn sẵn, cùng với các file HTML lưu lúc dò cấu trúc trang bên khác.
+
+> **Bẫy:** `og:image` phải là **đường dẫn tuyệt đối**. Tài khoản này còn có tên
+> miền riêng gắn ở cấp user nên Pages phục vụ tại `peter208.com/<repo>/` chứ không
+> phải `phuocong.github.io`. Đổi tên miền thì phải sửa lại chỗ đó trong
+> `src/build_home.py` và `src/build_site.py`.
 
 | Nguồn | Kết quả |
 |---|---|
