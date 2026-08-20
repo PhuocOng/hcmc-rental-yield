@@ -502,8 +502,12 @@ function setBars(){
     const f=Math.round(shown/FRAME);
     if(!force && f===shownFrame) return;              /* khung khong doi -> bo qua */
     if(!force && now-lastSeek<SEEK_MIN_MS) return;    /* san toc do khi cuon rat nhanh */
+    const t=f*FRAME;
+    /* Gan currentTime bang dung gia tri hien tai thi KHONG co su kien 'seeked',
+       ma co 'seeking' lai da bat -> ket vinh vien, moi lenh tua sau deu bi chan. */
+    if(Math.abs(v.currentTime-t)<1e-4){ shownFrame=f; return; }
     lastSeek=now; shownFrame=f; seeking=true; seekAt=now;
-    try{ v.currentTime=f*FRAME; }catch(e){ seeking=false; }
+    try{ v.currentTime=t; }catch(e){ seeking=false; }
   }
   /* He so noi suy quyet dinh do "bam" cua video vao vi tri cuon.
      0.16 can ~220ms de duoi kip 90% khoang cach — doc ra thanh cam giac tre.
@@ -531,13 +535,11 @@ function setBars(){
     const p=clamp(scrollY/maxScroll,0,1);
     if(v.duration){
       target=p*v.duration*0.999;
-      /* Chan khong cho tua vuot qua phan da tai. Tua vao vung chua co du lieu
-         se lam video dung hinh cho — thay vi vay thi no bam o mep bo dem va
-         chay tiep khi du lieu ve. */
-      if(v.buffered.length){
-        const b=v.buffered.end(v.buffered.length-1)-0.15;
-        if(target>b) target=Math.max(0,b);
-      }
+      /* KHONG duoc kep target vao phan da tai. Video dang TAM DUNG thi trinh
+         duyet chi tai truoc mot doan ngan (do duoc: 2,5 giay = 9%) roi ngung han
+         — kep vao do la ghim nen dung yen o 9% hanh trinh du nguoi dung cuon het
+         trang. Cu de no tua toi dau can: trinh duyet se tu xin doan con thieu,
+         cho mot nhip ngan van hon la khong bao gio nhuc nhich. */
       if(!running){ running=true; requestAnimationFrame(tick); }
     }
     reveal();
