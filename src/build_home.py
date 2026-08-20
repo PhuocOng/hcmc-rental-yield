@@ -489,13 +489,21 @@ function setBars(){
      khung). Goi tua moi nhip rAF = doi decoder lam 60 lan/giay o do phan giai
      1600x900 — no khong theo kip va sinh ra giat. Chan o ~30 lan/giay: mat
      thuong khong phan biet duoc, ma decoder tho duoc. */
-  const SEEK_MIN_MS=33;
-  let lastSeek=0;
+  /* Video 24 khung/giay. Tua toi mot thoi diem nam GIUA hai khung se hien ra
+     dung khung do — tuc la mot lenh giai ma day du cho ket qua y het khung dang
+     hien. Truoc day nguong la 0.004 giay = MOT PHAN MUOI khung: phan lon lenh tua
+     la vo ich, chi ton decoder chu khong doi gi tren man hinh.
+     Gio lam tron ve bien khung: khong bao gio tua neu khung hien ra khong doi. */
+  const FPS=24, FRAME=1/FPS, SEEK_MIN_MS=38;
+  let lastSeek=0, shownFrame=-1;
   function seek(force){
     const now=performance.now();
-    if(seeking || (!force && now-lastSeek<SEEK_MIN_MS)) return;
-    lastSeek=now; seeking=true; seekAt=now;
-    try{ v.currentTime=shown; }catch(e){ seeking=false; }
+    if(seeking) return;
+    const f=Math.round(shown/FRAME);
+    if(!force && f===shownFrame) return;              /* khung khong doi -> bo qua */
+    if(!force && now-lastSeek<SEEK_MIN_MS) return;    /* san toc do khi cuon rat nhanh */
+    lastSeek=now; shownFrame=f; seeking=true; seekAt=now;
+    try{ v.currentTime=f*FRAME; }catch(e){ seeking=false; }
   }
   /* He so noi suy quyet dinh do "bam" cua video vao vi tri cuon.
      0.16 can ~220ms de duoi kip 90% khoang cach — doc ra thanh cam giac tre.
@@ -505,7 +513,7 @@ function setBars(){
   function tick(){
     if(seeking && performance.now()-seekAt>400) seeking=false;   /* chong ket vinh vien */
     const d=target-shown;
-    if(Math.abs(d)<0.004){ shown=target; running=false; seek(true); return; }
+    if(Math.abs(d)<FRAME*0.5){ shown=target; running=false; seek(true); return; }
     shown += Math.abs(d)>2.5 ? d*0.75 : d*0.26;
     seek();
     requestAnimationFrame(tick);

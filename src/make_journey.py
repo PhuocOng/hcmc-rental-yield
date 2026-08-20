@@ -54,8 +54,11 @@ GRADE = "eq=saturation=0.70:brightness=-0.04:contrast=1.05,colorbalance=rs=.03:b
 # Toi rieng chang dau vua giu chu doc duoc, vua tao mach sang dan khi cuon xuong.
 GRADE_OPEN = "eq=saturation=0.62:brightness=-0.25:contrast=1.12,colorbalance=rs=.03:bs=-.02"
 
-SCRUB_FLAGS = ["-c:v", "libx264", "-crf", "29", "-preset", "slow",
-               "-g", "8", "-keyint_min", "8", "-pix_fmt", "yuv420p",
+# -g 4: keyframe day gap doi. Moi lenh tua bat decoder giai ma lai TU KEYFRAME
+# GAN NHAT, nen keyframe cang day thi moi lan tua cang it khung phai giai ma.
+# Doi lay file nang them, nhung tua la viec video nay lam suot ca trang.
+SCRUB_FLAGS = ["-c:v", "libx264", "-crf", "32", "-preset", "slow",
+               "-g", "4", "-keyint_min", "4", "-pix_fmt", "yuv420p",
                "-movflags", "+faststart", "-an"]
 
 
