@@ -94,9 +94,13 @@ a{color:inherit}
 .bg video.ready{opacity:1}
 .bg img{opacity:.8}
 /* Man loc: giu chu doc duoc, va keo footage lui ve lam ket cau nen */
+/* Man loc phu ca khung, doi xung va muot nen doc ra nhu anh sang tu nhien chu
+   khong phai mot mang toi. Do net cua footage den tu do phan giai, muc nen va
+   bao hoa mau — KHONG den tu viec nhat man loc di, nen cho phep no du toi de
+   giu chu doc duoc. */
 .bg .veil{position:absolute;inset:0;
-  background:radial-gradient(125% 95% at 50% 42%,rgba(14,13,12,.10) 0%,rgba(14,13,12,.48) 60%,
-    rgba(14,13,12,.80) 100%)}
+  background:radial-gradient(130% 100% at 50% 40%,rgba(14,13,12,.36) 0%,rgba(14,13,12,.62) 58%,
+    rgba(14,13,12,.85) 100%)}
 main{position:relative;z-index:10}
 
 /* ============ thanh dieu huong ============ */
@@ -140,29 +144,25 @@ main{position:relative;z-index:10}
 .beat>div{max-width:840px;width:100%;position:relative;
   opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.22,1,.36,1),
   transform .9s cubic-bezier(.22,1,.36,1)}
-/* Vung toi CUC BO sau chu. Toi lai ca khung thi mat het cong lam anh net, nen chi
-   dat mot quang toi mem ngay sau khoi chu roi tan dan ra — chu co nen, footage
-   xung quanh van sang. */
-.beat>div::before{content:'';position:absolute;inset:-14% -16%;z-index:-1;
-  pointer-events:none;
-  background:radial-gradient(58% 54% at 50% 50%,rgba(12,11,10,.80) 0%,
-    rgba(12,11,10,.58) 48%,rgba(12,11,10,.22) 76%,transparent 100%)}
+/* KHONG dat mang toi sau chu: no hien thanh mot vet bau duc lu lu tren may.
+   Chi dung do bong nhieu lop — bong om sat net chu nen tach duoc chu khoi nen
+   ma khong tao ra hinh khoi nao nhin thay duoc. */
 .beat.seen>div{opacity:1;transform:none}
 /* Tren footage sang, mau chu phu cua giao dien qua chim — dung mau sang rieng */
 .beat .kick{font:600 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(255,255,255,.74);margin-bottom:22px;
-  text-shadow:0 1px 10px rgba(0,0,0,.85)}
+  color:rgba(255,255,255,.82);margin-bottom:22px;
+  text-shadow:0 1px 2px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.85)}
 .beat h1{font-size:clamp(32px,6.2vw,64px);line-height:1.06;
-  text-shadow:0 1px 3px rgba(0,0,0,.55),0 3px 34px rgba(0,0,0,.75)}
+  text-shadow:0 1px 2px rgba(0,0,0,.92),0 2px 10px rgba(0,0,0,.78),0 6px 34px rgba(0,0,0,.6)}
 /* Dat nung goc lan vao may hoang hon vi cung tong am — sang len va vien toi de tach */
-.beat h1 em{font-style:normal;color:#EE8259;
-  text-shadow:0 1px 3px rgba(0,0,0,.7),0 3px 30px rgba(0,0,0,.8)}
+.beat h1 em{font-style:normal;color:#F79E77;
+  text-shadow:0 1px 2px rgba(0,0,0,.92),0 2px 10px rgba(0,0,0,.78),0 6px 34px rgba(0,0,0,.6)}
 .beat .lede{margin:22px auto 0;font-size:17px;line-height:1.7;max-width:56ch;
-  color:rgba(255,255,255,.88);text-shadow:0 1px 12px rgba(0,0,0,.85)}
+  color:rgba(255,255,255,.93);text-shadow:0 1px 2px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.85)}
 .beat .big{font:600 clamp(50px,10vw,116px)/1 var(--mono);letter-spacing:-.045em;
-  text-shadow:0 2px 4px rgba(0,0,0,.55),0 4px 44px rgba(0,0,0,.8)}
+  text-shadow:0 1px 2px rgba(0,0,0,.92),0 2px 10px rgba(0,0,0,.78),0 6px 34px rgba(0,0,0,.6)}
 .beat .sm{margin-top:16px;font-size:16px;max-width:52ch;margin-left:auto;margin-right:auto;
-  color:rgba(255,255,255,.86);text-shadow:0 1px 12px rgba(0,0,0,.85)}
+  color:rgba(255,255,255,.92);text-shadow:0 1px 2px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.85)}
 
 .cmp{display:grid;grid-template-columns:max-content 1fr max-content;
   column-gap:14px;row-gap:12px;align-items:center;max-width:620px;margin:0 auto;text-align:left}
@@ -174,7 +174,7 @@ main{position:relative;z-index:10}
 .cb i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;display:block;width:0;
   transition:width 1.1s cubic-bezier(.22,1,.36,1)}
 .cc{font-size:12px;color:rgba(255,255,255,.70);white-space:nowrap;
-  text-shadow:0 1px 9px rgba(0,0,0,.85)}
+  text-shadow:0 1px 2px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.85)}
 @media(max-width:640px){.cmp{grid-template-columns:max-content 1fr}.cc{display:none}}
 .cta{display:flex;gap:11px;flex-wrap:wrap;justify-content:center;margin-top:30px}
 .btn{display:inline-flex;align-items:center;gap:8px;font:500 14px/1 var(--sans);
@@ -187,7 +187,7 @@ main{position:relative;z-index:10}
 .btn i{font-style:normal;transition:transform .25s}
 .btn:hover i{transform:translateX(4px)}
 .ctasub{margin:16px 0 0;font:400 12.5px/1.5 var(--sans);
-  color:rgba(255,255,255,.66);text-shadow:0 1px 10px rgba(0,0,0,.85)}
+  color:rgba(255,255,255,.78);text-shadow:0 1px 2px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.85)}
 .btn.s{border-color:var(--line);color:var(--ink2)}
 .btn.s:hover{border-color:var(--ink2);color:var(--ink)}
 

@@ -45,8 +45,14 @@ STAGES = [
     ("6_duong-pho.mp4", 4),         # that — vong xoay nhin thang xuong
 ]
 
-# Tong chung: ha bao hoa manh, toi di, hoi am. Bien no thanh ket cau nen.
+# Tong chung cho ca sau chang.
 GRADE = "eq=saturation=0.70:brightness=-0.04:contrast=1.05,colorbalance=rs=.03:bs=-.02"
+
+# Chang DAU rieng: toi han. Chu tieu de cua trang chu nam dung tren khung nay, ma
+# may an nang thi do sang trung binh — dat chu mau dat nung len se khong co tuong
+# phan, toi man loc chung cung khong cuu duoc vi no lam toi luon nam chang sau.
+# Toi rieng chang dau vua giu chu doc duoc, vua tao mach sang dan khi cuon xuong.
+GRADE_OPEN = "eq=saturation=0.62:brightness=-0.25:contrast=1.12,colorbalance=rs=.03:bs=-.02"
 
 SCRUB_FLAGS = ["-c:v", "libx264", "-crf", "29", "-preset", "slow",
                "-g", "8", "-keyint_min", "8", "-pix_fmt", "yuv420p",
@@ -73,7 +79,8 @@ def main() -> None:
     # roi cat se thieu chieu cao va ffmpeg do.
     H = int(W * 9 / 16)
     parts = [f"[{i}:v]scale={W}:{H}:force_original_aspect_ratio=increase,"
-             f"crop={W}:{H},fps={FPS},{GRADE},setpts=PTS-STARTPTS[v{i}]"
+             f"crop={W}:{H},fps={FPS},{GRADE_OPEN if i == 0 else GRADE},"
+             f"setpts=PTS-STARTPTS[v{i}]"
              for i in range(len(STAGES))]
 
     # Noi bang xfade. Moc thoi gian phai TRU DON phan da hoa tan cua cac chang truoc,
