@@ -53,7 +53,7 @@ PAGE = r"""<!doctype html>
 <meta property="og:type" content="website">
 <meta property="og:title" content="Buying to let in HCMC earns less than a bank deposit">
 <meta property="og:description" content="45,084 listings across 20 districts. Net rental yield 1.51%/yr against 6.00% on a 12-month deposit.">
-<meta property="og:image" content="https://phuocong.github.io/hcmc-rental-yield/og.png">
+<meta property="og:image" content="https://peter208.com/hcmc-rental-yield/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
