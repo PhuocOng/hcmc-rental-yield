@@ -46,11 +46,15 @@ a{color:inherit}
 .wrap{max-width:1000px;margin:0 auto;padding:0 22px}
 
 /* ============ VIDEO NEN, CO DINH SAU TAT CA ============ */
-.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:var(--void)}
-.bg img,.bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:var(--void);
   will-change:transform}
+.bg img,.bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* will-change phai nam o .bg — transform ap len chinh no. Dat o con thi trinh duyet
+   tach them hai lop khong can thiet. */
 .bg video{opacity:0;transition:opacity .8s ease}
 .bg video.ready{opacity:1}
+/* Video da san thi anh nen khong con viec gi — an di de bot mot lop phai gop */
+.bg.live img{display:none}
 .bg img{opacity:.8}
 /* Man loc: giu chu doc duoc, va keo footage lui ve lam ket cau nen */
 /* Man loc phu ca khung, doi xung va muot nen doc ra nhu anh sang tu nhien chu
@@ -65,7 +69,10 @@ main{position:relative;z-index:10}
 /* ============ thanh dieu huong ============ */
 .nav{position:fixed;top:0;left:0;right:0;z-index:60;height:54px;
   border-bottom:1px solid transparent;transition:background .35s,border-color .35s}
-.nav.on{background:rgba(14,13,12,.78);backdrop-filter:saturate(160%) blur(12px);
+/* Khong dung backdrop-filter o day: nen phia sau la video dang tua nen no phai
+   lam mo lai vung do MOI KHUNG HINH. Tren nen toi san, mot lop dac 92% nhin
+   gan nhu y het ma gan nhu khong ton gi. */
+.nav.on{background:rgba(12,11,10,.92);
   border-bottom-color:var(--line)}
 .nav .in{max-width:1000px;margin:0 auto;padding:0 22px;height:54px;display:flex;
   align-items:center;gap:13px}
@@ -151,7 +158,8 @@ main{position:relative;z-index:10}
 .btn.s:hover{border-color:var(--ink2);color:var(--ink)}
 
 /* ============ cac muc noi dung, tren tam kinh toi ============ */
-section.panel{background:var(--glass);
+section.panel{content-visibility:auto;contain-intrinsic-size:auto 420px;
+  background:var(--glass);
   border:1px solid var(--line);border-radius:4px;padding:38px 34px;margin-bottom:14px;
   opacity:0;transform:translateY(30px);
   transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
@@ -535,6 +543,7 @@ function setBars(){
     v.src=SRC;
     v.addEventListener('loadedmetadata',()=>{
       v.classList.add('ready');
+      setTimeout(()=>document.querySelector('.bg').classList.add('live'),900);
       if(scrollY<60) hint.style.opacity=1;
       start();
     },{once:true});
@@ -551,10 +560,20 @@ function setBars(){
     },180);
   }
 
-  let shown=0,target=0,running=false,seeking=false,seekAt=0;
+  let shown=0,target=0,running=false,seeking=false,seekAt=0,navOn=false;
   v.addEventListener('seeked',()=>{seeking=false;});
-  function seek(){ if(seeking) return; seeking=true; seekAt=performance.now();
-    try{ v.currentTime=shown; }catch(e){ seeking=false; } }
+  /* Moi lenh tua bat decoder giai ma lai tu keyframe gan nhat (o day la toi 8
+     khung). Goi tua moi nhip rAF = doi decoder lam 60 lan/giay o do phan giai
+     1600x900 — no khong theo kip va sinh ra giat. Chan o ~30 lan/giay: mat
+     thuong khong phan biet duoc, ma decoder tho duoc. */
+  const SEEK_MIN_MS=33;
+  let lastSeek=0;
+  function seek(force){
+    const now=performance.now();
+    if(seeking || (!force && now-lastSeek<SEEK_MIN_MS)) return;
+    lastSeek=now; seeking=true; seekAt=now;
+    try{ v.currentTime=shown; }catch(e){ seeking=false; }
+  }
   /* He so noi suy quyet dinh do "bam" cua video vao vi tri cuon.
      0.16 can ~220ms de duoi kip 90% khoang cach — doc ra thanh cam giac tre.
      0.26 con ~130ms, van muot ma theo sat tay hon nhieu.
@@ -563,16 +582,22 @@ function setBars(){
   function tick(){
     if(seeking && performance.now()-seekAt>400) seeking=false;   /* chong ket vinh vien */
     const d=target-shown;
-    if(Math.abs(d)<0.004){ shown=target; running=false; seek(); return; }
+    if(Math.abs(d)<0.004){ shown=target; running=false; seek(true); return; }
     shown += Math.abs(d)>2.5 ? d*0.75 : d*0.26;
     seek();
     requestAnimationFrame(tick);
   }
 
   let lastP=-1;
+  /* scrollHeight ep trinh duyet TINH LAI BO CUC ngay tai cho. Goi no trong ham
+     cuon la ep tinh bo cuc dong bo hang chuc lan moi giay — day la thu nang nhat
+     trong ca vong cuon. Do mot lan, chi do lai khi kich thuoc that su doi. */
+  let maxScroll=1;
+  function measure(){ maxScroll=Math.max(1,document.documentElement.scrollHeight-innerHeight); }
+
+  let lastScale=-1;
   function onScroll(){
-    const max=document.documentElement.scrollHeight-innerHeight;
-    const p=max>0?clamp(scrollY/max,0,1):0;
+    const p=clamp(scrollY/maxScroll,0,1);
     if(v.duration){
       target=p*v.duration*0.999;
       /* Chan khong cho tua vuot qua phan da tai. Tua vao vung chua co du lieu
@@ -584,20 +609,25 @@ function setBars(){
       }
       if(!running){ running=true; requestAnimationFrame(tick); }
     }
-    /* chi ghi DOM khi that su doi */
     reveal();
-    const pr=Math.round(p*1000)/1000;
-    if(pr!==lastP){
-      lastP=pr;
-      /* day nhe camera vao trong theo tien do cuon — goi cam giac chieu sau */
-      bg.style.transform='scale('+(1+pr*0.035).toFixed(4)+')';
-      nav.classList.toggle('on',scrollY>50);
-      if(scrollY>60 && hint.style.opacity!=='0') hint.style.opacity=0;
+    /* Lam tron ty le phong to thanh 40 nac. Truoc day de 4 chu so thap phan nen
+       gan nhu moi lan cuon deu ra mot gia tri moi, ep gop lai ca lop video 1600px.
+       40 nac cho ca trang van muot mat ma so lan gop giam han. */
+    const sc=Math.round(p*40);
+    if(sc!==lastScale){
+      lastScale=sc;
+      bg.style.transform='scale('+(1+sc/40*0.035).toFixed(3)+')';
     }
+    const on=scrollY>50;
+    if(on!==navOn){ navOn=on; nav.classList.toggle('on',on); }
+    if(scrollY>60 && hint.style.opacity!=='0') hint.style.opacity=0;
   }
   function start(){
+    measure();
     addEventListener('scroll',onScroll,{passive:true});
-    addEventListener('resize',onScroll);
+    addEventListener('resize',()=>{measure();onScroll();});
+    /* bo cuc con doi khi anh/font ve xong, do lai vai lan dau */
+    [300,1200,3000].forEach(t=>setTimeout(()=>{measure();onScroll();},t));
     onScroll();
   }
   window._hero={onScroll,giveUp,state:()=>({shown,target,running,seeking})};
