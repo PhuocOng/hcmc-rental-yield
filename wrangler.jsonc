@@ -1,0 +1,16 @@
+{
+  // Cau hinh de Cloudflare phuc vu trang tinh nay.
+  //
+  // Day la Worker CHI CO TAI SAN TINH: khong co ma chay phia may chu, khong co
+  // truong "main". Cloudflare doc thu muc trong "assets.directory" roi phuc vu
+  // thang, giong het GitHub Pages.
+  //
+  // Trang da duoc dung san va commit vao docs/ nen KHONG can build command.
+  // Muon dung lai thi chay o may:
+  //     python src/build_home.py && python src/build_site.py
+  "name": "hcmc-rental-yield",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    "directory": "./docs"
+  }
+}
