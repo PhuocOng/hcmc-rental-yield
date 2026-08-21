@@ -31,7 +31,7 @@ ASSETS = ROOT / "docs" / "assets"
 OUT = ASSETS / "hero-scrub.mp4"
 POSTER = ASSETS / "hero-poster.jpg"
 
-W, FPS, SEG, FADE = 1600, 24, 5.5, 1.1     # be ngang, fps, giay moi chang, giay hoa tan
+W, FPS, SEG, FADE = 1152, 30, 5.5, 1.1      # be ngang, fps, giay moi chang, giay hoa tan
 
 # (file, giay bat dau) — chon doan dep nhat cua tung clip
 STAGES = [
@@ -45,20 +45,11 @@ STAGES = [
     ("6_duong-pho.mp4", 4),         # that — vong xoay nhin thang xuong
 ]
 
-# Tong chung cho ca sau chang.
-GRADE = "eq=saturation=0.70:brightness=-0.04:contrast=1.05,colorbalance=rs=.03:bs=-.02"
+# Tong chung: ha bao hoa manh, toi di, hoi am. Bien no thanh ket cau nen.
+GRADE = "eq=saturation=0.42:brightness=-0.10:contrast=1.12,colorbalance=rs=.04:bs=-.03"
 
-# Chang DAU rieng: toi han. Chu tieu de cua trang chu nam dung tren khung nay, ma
-# may an nang thi do sang trung binh — dat chu mau dat nung len se khong co tuong
-# phan, toi man loc chung cung khong cuu duoc vi no lam toi luon nam chang sau.
-# Toi rieng chang dau vua giu chu doc duoc, vua tao mach sang dan khi cuon xuong.
-GRADE_OPEN = "eq=saturation=0.62:brightness=-0.25:contrast=1.12,colorbalance=rs=.03:bs=-.02"
-
-# -g 4: keyframe day gap doi. Moi lenh tua bat decoder giai ma lai TU KEYFRAME
-# GAN NHAT, nen keyframe cang day thi moi lan tua cang it khung phai giai ma.
-# Doi lay file nang them, nhung tua la viec video nay lam suot ca trang.
-SCRUB_FLAGS = ["-c:v", "libx264", "-crf", "32", "-preset", "slow",
-               "-g", "4", "-keyint_min", "4", "-pix_fmt", "yuv420p",
+SCRUB_FLAGS = ["-c:v", "libx264", "-crf", "31", "-preset", "slow",
+               "-g", "8", "-keyint_min", "8", "-pix_fmt", "yuv420p",
                "-movflags", "+faststart", "-an"]
 
 
@@ -82,8 +73,7 @@ def main() -> None:
     # roi cat se thieu chieu cao va ffmpeg do.
     H = int(W * 9 / 16)
     parts = [f"[{i}:v]scale={W}:{H}:force_original_aspect_ratio=increase,"
-             f"crop={W}:{H},fps={FPS},{GRADE_OPEN if i == 0 else GRADE},"
-             f"setpts=PTS-STARTPTS[v{i}]"
+             f"crop={W}:{H},fps={FPS},{GRADE},setpts=PTS-STARTPTS[v{i}]"
              for i in range(len(STAGES))]
 
     # Noi bang xfade. Moc thoi gian phai TRU DON phan da hoa tan cua cac chang truoc,

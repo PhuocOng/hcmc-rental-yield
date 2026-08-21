@@ -17,11 +17,9 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preload" as="image" href="assets/hero-poster.jpg" fetchpriority="high">
-<!-- KHONG dung <link rel="preload" as="video">: "video" khong phai gia tri hop le
-     cua thuoc tinh as, trinh duyet tai rieng mot ban va KHONG ghep duoc voi request
-     cua the <video> — thanh ra tai hai lan, ton gap doi bang thong. The <video> voi
-     preload="auto" va src dat san la du: metadata nam dau file (+faststart) nen tua
-     duoc sau khoang 200ms. -->
+<!-- Bat dau tai video ngay tu <head>. Neu doi den luc script cuoi body chay
+     thi da mat ca quang thoi gian doc body va tai CSS font. -->
+<script>window.__vid=fetch("assets/hero-scrub.mp4");</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -46,33 +44,22 @@ a{color:inherit}
 .wrap{max-width:1000px;margin:0 auto;padding:0 22px}
 
 /* ============ VIDEO NEN, CO DINH SAU TAT CA ============ */
-.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:var(--void);
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;background:var(--void)}
+.bg img,.bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
   will-change:transform}
-.bg img,.bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-/* will-change phai nam o .bg — transform ap len chinh no. Dat o con thi trinh duyet
-   tach them hai lop khong can thiet. */
 .bg video{opacity:0;transition:opacity .8s ease}
 .bg video.ready{opacity:1}
-/* Video da san thi anh nen khong con viec gi — an di de bot mot lop phai gop */
-.bg.live img{display:none}
 .bg img{opacity:.8}
 /* Man loc: giu chu doc duoc, va keo footage lui ve lam ket cau nen */
-/* Man loc phu ca khung, doi xung va muot nen doc ra nhu anh sang tu nhien chu
-   khong phai mot mang toi. Do net cua footage den tu do phan giai, muc nen va
-   bao hoa mau — KHONG den tu viec nhat man loc di, nen cho phep no du toi de
-   giu chu doc duoc. */
 .bg .veil{position:absolute;inset:0;
-  background:radial-gradient(130% 100% at 50% 40%,rgba(14,13,12,.36) 0%,rgba(14,13,12,.62) 58%,
-    rgba(14,13,12,.85) 100%)}
+  background:radial-gradient(120% 90% at 50% 40%,rgba(14,13,12,.28) 0%,rgba(14,13,12,.72) 62%,
+    rgba(14,13,12,.93) 100%)}
 main{position:relative;z-index:10}
 
 /* ============ thanh dieu huong ============ */
 .nav{position:fixed;top:0;left:0;right:0;z-index:60;height:54px;
   border-bottom:1px solid transparent;transition:background .35s,border-color .35s}
-/* Khong dung backdrop-filter o day: nen phia sau la video dang tua nen no phai
-   lam mo lai vung do MOI KHUNG HINH. Tren nen toi san, mot lop dac 92% nhin
-   gan nhu y het ma gan nhu khong ton gi. */
-.nav.on{background:rgba(12,11,10,.92);
+.nav.on{background:rgba(14,13,12,.78);backdrop-filter:saturate(160%) blur(12px);
   border-bottom-color:var(--line)}
 .nav .in{max-width:1000px;margin:0 auto;padding:0 22px;height:54px;display:flex;
   align-items:center;gap:13px}
@@ -107,28 +94,33 @@ main{position:relative;z-index:10}
 
 /* ============ cac man mo dau ============ */
 .beat{min-height:100vh;display:grid;place-items:center;padding:80px 24px;text-align:center}
-.beat>div{max-width:840px;width:100%;position:relative;
+.beat>div{max-width:840px;width:100%;
   opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.22,1,.36,1),
   transform .9s cubic-bezier(.22,1,.36,1)}
-/* KHONG dat mang toi sau chu: no hien thanh mot vet bau duc lu lu tren may.
-   Chi dung do bong nhieu lop — bong om sat net chu nen tach duoc chu khoi nen
-   ma khong tao ra hinh khoi nao nhin thay duoc. */
 .beat.seen>div{opacity:1;transform:none}
-/* Tren footage sang, mau chu phu cua giao dien qua chim — dung mau sang rieng */
+/* Chu nam tren footage nen mau phu cua giao dien (--ink2/--ink3, von danh cho
+   nen panel toi dac) bi chim. Dung trang theo do mo rieng cho phan nay. */
+/* Vien chu: paint-order dat NET VIEN xuong duoi phan to mau, nen viet chu giu
+   nguyen do day. Neu khong co dong nay thi -webkit-text-stroke an vao trong
+   long chu va lam net chu gay di. */
+.beat .kick,.beat h1,.beat .lede,.beat .big,.beat .sm{
+  paint-order:stroke fill;
+  -webkit-text-stroke:.6px rgba(0,0,0,.55)}
+.beat h1,.beat .big{-webkit-text-stroke-width:1.1px}
 .beat .kick{font:600 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;
-  color:rgba(255,255,255,.82);margin-bottom:22px;
-  text-shadow:0 1px 2px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.85)}
+  color:rgba(255,255,255,.80);margin-bottom:22px;
+  text-shadow:0 1px 3px rgba(0,0,0,.9)}
 .beat h1{font-size:clamp(32px,6.2vw,64px);line-height:1.06;
-  text-shadow:0 1px 2px rgba(0,0,0,.92),0 2px 10px rgba(0,0,0,.78),0 6px 34px rgba(0,0,0,.6)}
-/* Dat nung goc lan vao may hoang hon vi cung tong am — sang len va vien toi de tach */
-.beat h1 em{font-style:normal;color:#F79E77;
-  text-shadow:0 1px 2px rgba(0,0,0,.92),0 2px 10px rgba(0,0,0,.78),0 6px 34px rgba(0,0,0,.6)}
+  text-shadow:0 1px 3px rgba(0,0,0,.7),0 2px 40px rgba(0,0,0,.6)}
+.beat h1 em{font-style:normal;color:#F49A72;
+  -webkit-text-stroke-width:1.4px}   /* mau am, lan vao may nen can vien day hon */
 .beat .lede{margin:22px auto 0;font-size:17px;line-height:1.7;max-width:56ch;
-  color:rgba(255,255,255,.93);text-shadow:0 1px 2px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.85)}
+  color:rgba(255,255,255,.90);text-shadow:0 1px 3px rgba(0,0,0,.85)}
 .beat .big{font:600 clamp(50px,10vw,116px)/1 var(--mono);letter-spacing:-.045em;
-  text-shadow:0 1px 2px rgba(0,0,0,.92),0 2px 10px rgba(0,0,0,.78),0 6px 34px rgba(0,0,0,.6)}
-.beat .sm{margin-top:16px;font-size:16px;max-width:52ch;margin-left:auto;margin-right:auto;
-  color:rgba(255,255,255,.92);text-shadow:0 1px 2px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.85)}
+  text-shadow:0 1px 3px rgba(0,0,0,.7),0 2px 40px rgba(0,0,0,.6)}
+.beat .sm{margin-top:16px;font-size:16px;max-width:52ch;
+  margin-left:auto;margin-right:auto;
+  color:rgba(255,255,255,.88);text-shadow:0 1px 3px rgba(0,0,0,.85)}
 
 .cmp{display:grid;grid-template-columns:max-content 1fr max-content;
   column-gap:14px;row-gap:12px;align-items:center;max-width:620px;margin:0 auto;text-align:left}
@@ -139,8 +131,7 @@ main{position:relative;z-index:10}
   overflow:hidden}
 .cb i{position:absolute;left:0;top:0;bottom:0;border-radius:2px;display:block;width:0;
   transition:width 1.1s cubic-bezier(.22,1,.36,1)}
-.cc{font-size:12px;color:rgba(255,255,255,.70);white-space:nowrap;
-  text-shadow:0 1px 2px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.85)}
+.cc{font-size:12px;color:var(--ink3);white-space:nowrap}
 @media(max-width:640px){.cmp{grid-template-columns:max-content 1fr}.cc{display:none}}
 .cta{display:flex;gap:11px;flex-wrap:wrap;justify-content:center;margin-top:30px}
 .btn{display:inline-flex;align-items:center;gap:8px;font:500 14px/1 var(--sans);
@@ -152,14 +143,12 @@ main{position:relative;z-index:10}
 .btn.big{font-size:15.5px;font-weight:600;padding:17px 28px}
 .btn i{font-style:normal;transition:transform .25s}
 .btn:hover i{transform:translateX(4px)}
-.ctasub{margin:16px 0 0;font:400 12.5px/1.5 var(--sans);
-  color:rgba(255,255,255,.78);text-shadow:0 1px 2px rgba(0,0,0,.95),0 1px 8px rgba(0,0,0,.85)}
+.ctasub{margin:16px 0 0;font:400 12.5px/1.5 var(--sans);color:var(--ink3)}
 .btn.s{border-color:var(--line);color:var(--ink2)}
 .btn.s:hover{border-color:var(--ink2);color:var(--ink)}
 
 /* ============ cac muc noi dung, tren tam kinh toi ============ */
-section.panel{content-visibility:auto;contain-intrinsic-size:auto 420px;
-  background:var(--glass);
+section.panel{background:var(--glass);
   border:1px solid var(--line);border-radius:4px;padding:38px 34px;margin-bottom:14px;
   opacity:0;transform:translateY(30px);
   transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1)}
@@ -531,108 +520,73 @@ function setBars(){
     setBars();
   }
 
-  /* Truoc day tai TRON 5 MB thanh Blob roi moi cho tua. Trong ~1,5-2 giay do
-     `v.duration` chua co nen vong tua khong chay: nguoi dung cuon ma hinh khong
-     doi khung. Do chinh la 2 giay "lag" khi vua vao.
-
-     Gio phat truc tiep. Nho `-movflags +faststart`, phan metadata nam o dau file
-     nen `loadedmetadata` ve sau vai tram ms — tua duoc gan nhu ngay lap tuc, va
-     chi tai MOT lan thay vi hai. */
-  function load(){
-    v.preload='auto';
-    v.src=SRC;
-    v.addEventListener('loadedmetadata',()=>{
+  async function load(){
+    try{
+      const res=await (window.__vid||fetch(SRC));
+      if(!res.ok) throw new Error(res.status);
+      const total=+(res.headers.get('content-length')||0);
+      const rd=res.body.getReader(); const chunks=[]; let got=0;
+      for(;;){
+        const {done,value}=await rd.read(); if(done) break;
+        chunks.push(value); got+=value.length;
+        if(total) $('rfg').style.strokeDashoffset=44*(1-got/total);
+      }
+      v.src=URL.createObjectURL(new Blob(chunks,{type:'video/mp4'}));
+      await new Promise((ok,no)=>{
+        v.addEventListener('loadedmetadata',ok,{once:true});
+        v.addEventListener('error',no,{once:true});
+        setTimeout(no,20000);
+      });
       v.classList.add('ready');
-      setTimeout(()=>document.querySelector('.bg').classList.add('live'),900);
+      ring.style.opacity=0; setTimeout(()=>ring.style.display='none',500);
       if(scrollY<60) hint.style.opacity=1;
       start();
-    },{once:true});
-    v.addEventListener('error',giveUp,{once:true});
-    setTimeout(()=>{ if(!v.duration) giveUp(); },20000);
-    /* Vong tron bao phan da tai duoc, doc tu chinh bo dem cua video */
-    const iv=setInterval(()=>{
-      if(!v.duration) return;
-      const b=v.buffered.length?v.buffered.end(v.buffered.length-1):0;
-      const f=Math.min(1,b/v.duration);
-      $('rfg').style.strokeDashoffset=44*(1-f);
-      if(f>0.995){ clearInterval(iv); ring.style.opacity=0;
-        setTimeout(()=>ring.style.display='none',450); }
-    },180);
+    }catch(e){ giveUp(); }
   }
 
-  /* ===== VONG LAP LUON SONG =====
-     Ban truoc dung mot cai chot `running` de chi chay rAF khi can. No hong theo
-     kieu khong the tu hoi: neu trang duoc tai luc tab dang an (hoac truoc lan ve
-     dau tien), `running` bat len true nhung rAF KHONG chay de tat lai. Tu do moi
-     lan cuon deu thay running===true nen khong len lich rAF moi -> nen chet han
-     cho toi khi tai lai trang.
-     Gio giu mot vong rAF chay lien tuc. Khi khong co viec gi no thoat ra ngay,
-     ton dung mot loi goi ham moi khung — doi lay viec khong con trang thai nao
-     co the ket. */
-  let shown=0,target=0,seeking=false,seekAt=0,navOn=false;
-  const FPS=24, FRAME=1/FPS, SEEK_MIN_MS=38;
-  let lastSeek=0, shownFrame=-1;
+  let shown=0,target=0,running=false,seeking=false,seekAt=0;
   v.addEventListener('seeked',()=>{seeking=false;});
-
-  function seek(){
-    if(seeking) return;
-    const f=Math.round(shown/FRAME);
-    if(f===shownFrame) return;                       /* khung khong doi -> khong tua */
-    const now=performance.now();
-    if(now-lastSeek<SEEK_MIN_MS) return;             /* san toc do khi cuon rat nhanh */
-    const t=f*FRAME;
-    /* Gan currentTime dung bang gia tri hien tai thi KHONG sinh su kien 'seeked',
-       ma co 'seeking' da bat -> ket vinh vien. */
-    if(Math.abs(v.currentTime-t)<1e-4){ shownFrame=f; return; }
-    lastSeek=now; shownFrame=f; seeking=true; seekAt=now;
-    try{ v.currentTime=t; }catch(e){ seeking=false; }
-  }
-
-  function pump(){
-    requestAnimationFrame(pump);                     /* re-arm TRUOC moi viec khac */
-    if(!v.duration) return;
-    if(seeking && performance.now()-seekAt>500) seeking=false;   /* chong ket */
+  function seek(){ if(seeking) return; seeking=true; seekAt=performance.now();
+    try{ v.currentTime=shown; }catch(e){ seeking=false; } }
+  /* He so noi suy quyet dinh do "bam" cua video vao vi tri cuon.
+     0.16 can ~220ms de duoi kip 90% khoang cach — doc ra thanh cam giac tre.
+     0.26 con ~130ms, van muot ma theo sat tay hon nhieu.
+     Va khi nguoi dung keo thanh cuon nhay mot phat (khoang cach > 2,5s) thi
+     dung noi suy nua, nhay thang toi noi, neu khong se thay video "boi" theo. */
+  function tick(){
+    if(seeking && performance.now()-seekAt>400) seeking=false;   /* chong ket vinh vien */
     const d=target-shown;
-    if(Math.abs(d)<FRAME*0.25) shown=target;
-    /* keo thanh cuon nhay mot phat thi nhay thang, khong noi suy, neu khong video
-       se "boi" theo sau mot doan dai */
-    else shown += Math.abs(d)>2.5 ? d*0.70 : d*0.25;
+    if(Math.abs(d)<0.004){ shown=target; running=false; seek(); return; }
+    shown += Math.abs(d)>2.5 ? d*0.75 : d*0.26;
     seek();
+    requestAnimationFrame(tick);
   }
-  requestAnimationFrame(pump);
-  /* Quay lai tab sau khi roi di: rAF da bi tam dung, dong bo lai ngay */
-  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) onScroll(); });
 
-  /* scrollHeight ep trinh duyet TINH LAI BO CUC ngay tai cho. Goi no trong ham
-     cuon la ep tinh bo cuc dong bo hang chuc lan moi giay. Do mot lan, chi do lai
-     khi kich thuoc that su doi. */
-  let maxScroll=1;
-  function measure(){ maxScroll=Math.max(1,document.documentElement.scrollHeight-innerHeight); }
-
-  let lastScale=-1;
+  let lastP=-1;
   function onScroll(){
-    const p=clamp(scrollY/maxScroll,0,1);
-    if(v.duration) target=p*v.duration*0.999;
-    reveal();
-    /* Lam tron ty le phong to thanh 40 nac: de nguyen 4 chu so thap phan thi gan
-       nhu moi lan cuon deu ra gia tri moi, ep gop lai ca lop video 1600px. */
-    const sc=Math.round(p*40);
-    if(sc!==lastScale){
-      lastScale=sc;
-      bg.style.transform='scale('+(1+sc/40*0.035).toFixed(3)+')';
+    const max=document.documentElement.scrollHeight-innerHeight;
+    const p=max>0?clamp(scrollY/max,0,1):0;
+    if(v.duration){
+      target=p*v.duration*0.999;
+      if(!running){ running=true; requestAnimationFrame(tick); }
     }
-    const on=scrollY>50;
-    if(on!==navOn){ navOn=on; nav.classList.toggle('on',on); }
-    if(scrollY>60 && hint.style.opacity!=='0') hint.style.opacity=0;
+    /* chi ghi DOM khi that su doi */
+    reveal();
+    const pr=Math.round(p*1000)/1000;
+    if(pr!==lastP){
+      lastP=pr;
+      /* day nhe camera vao trong theo tien do cuon — goi cam giac chieu sau */
+      bg.style.transform='scale('+(1+pr*0.07).toFixed(4)+')';
+      nav.classList.toggle('on',scrollY>50);
+      if(scrollY>60 && hint.style.opacity!=='0') hint.style.opacity=0;
+    }
   }
   function start(){
-    measure();
     addEventListener('scroll',onScroll,{passive:true});
-    addEventListener('resize',()=>{measure();onScroll();});
-    [300,1200,3000].forEach(t=>setTimeout(()=>{measure();onScroll();},t));
+    addEventListener('resize',onScroll);
     onScroll();
   }
-  window._hero={onScroll,giveUp,seek,pump,state:()=>({shown,target,seeking,shownFrame})};
+  window._hero={onScroll,giveUp,state:()=>({shown,target,running,seeking})};
 
   if(reduce) giveUp(); else load();
 })();
