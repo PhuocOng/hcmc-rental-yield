@@ -1,6 +1,6 @@
 # Rental Yield — Tỉ suất cho thuê bất động sản TP.HCM
 
-**Trang chạy tại: https://peter208.com/hcmc-rental-yield/**
+**Trang chạy tại: https://rental-yield.bannguyenxanh.com**
 
 > Mua nhà cho thuê ở TP.HCM sinh lời ít hơn gửi tiết kiệm ngân hàng —
 > và đây là bản đồ chỗ nào tệ nhất.
@@ -66,7 +66,7 @@ lệch cơ cấu diện tích.
 
 ### Xem website
 
-Bản đã đưa lên: **https://peter208.com/hcmc-rental-yield/**
+Bản đã đưa lên: **https://rental-yield.bannguyenxanh.com**
 
 Chạy tại máy:
 
@@ -76,25 +76,33 @@ python -m http.server 8765 --directory docs
 
 ### Đưa lên mạng
 
-GitHub Pages, nguồn là nhánh `main` thư mục `/docs`. Đẩy code lên là tự cập nhật,
-không cần CI.
+**Cloudflare Workers**, nối thẳng với repo GitHub. Đẩy code lên là trang tự cập nhật.
 
 ```bash
 python src/build_home.py && python src/build_site.py
 git add -A && git commit -m "..." && git push
 ```
 
-**Vì sao là `docs/` chứ không phải `web/`:** GitHub Pages chỉ phục vụ được từ thư
-mục gốc hoặc `/docs`. Đổi tên thư mục đơn giản hơn dựng một quy trình CI. Báo cáo
-viết để ở `report/`.
+`wrangler.jsonc` khai báo đây là Worker **chỉ có tài sản tĩnh**: không có trường
+`main`, chỉ có `assets.directory` trỏ vào `docs/`. Cloudflare đọc thư mục đó rồi
+phục vụ thẳng, không cần build command vì trang đã dựng sẵn và commit vào `docs/`.
+
+Tên miền `rental-yield.bannguyenxanh.com` gắn ở tab **Domains** của Worker.
+
+**Vì sao rời GitHub Pages:** tài khoản GitHub có tên miền riêng gắn ở cấp user, nên
+mọi project page đều bị phục vụ dưới tên miền đó — không sửa được từ phía repo, và
+nó lộ tên. Cloudflare còn không giới hạn băng thông, quan trọng vì video nền 5 MB.
+
+**Vì sao là `docs/` chứ không phải `web/`:** vết tích từ hồi dùng GitHub Pages, vốn
+chỉ phục vụ được từ thư mục gốc hoặc `/docs`. Cloudflare thì thư mục nào cũng được,
+nhưng đổi lại tên bây giờ không đem lại gì. Báo cáo viết để ở `report/`.
 
 **Không bao giờ commit `data/raw/`** — 274 MB, và đó là nội dung tin rao gốc.
 `.gitignore` đã chặn sẵn, cùng với các file HTML lưu lúc dò cấu trúc trang bên khác.
 
-> **Bẫy:** `og:image` phải là **đường dẫn tuyệt đối**. Tài khoản này còn có tên
-> miền riêng gắn ở cấp user nên Pages phục vụ tại `peter208.com/<repo>/` chứ không
-> phải `phuocong.github.io`. Đổi tên miền thì phải sửa lại chỗ đó trong
-> `src/build_home.py` và `src/build_site.py`.
+> **Bẫy:** `og:image` phải là **đường dẫn tuyệt đối** — Facebook và Twitter không
+> đọc được đường dẫn tương đối, thẻ chia sẻ sẽ không có ảnh. Đổi tên miền thì phải
+> sửa lại chỗ đó trong `src/build_home.py` và `src/build_site.py`.
 
 | Nguồn | Kết quả |
 |---|---|
